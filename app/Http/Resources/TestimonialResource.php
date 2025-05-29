@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class TestimonialResource extends JsonResource
 {
@@ -16,7 +17,7 @@ class TestimonialResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'photo' => $this->getPhoto(),
+            'photo' => $this->photo ? url(Storage::url($this->photo)) : "https://ui-avatars.com/api/?background=15365F&color=C3A356&size=128&name=" . $this->name,
             'name' => $this->name,
             'position' => $this->position,
             'company' => $this->company,
