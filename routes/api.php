@@ -11,6 +11,7 @@ Route::get('/user', function (Request $request) {
 
 Route::prefix('v1')->name('api.v1.')->group(function () {
     Route::get('/home', [App\Http\Controllers\Api\HomeController::class, 'index'])->name('home.index');
+    Route::get('/info', [App\Http\Controllers\Api\InformationController::class, 'index'])->name('info.index');
 
     Route::apiResource('news', NewsController::class)
         ->only(['index', 'show'])
