@@ -67,10 +67,10 @@ class NewsResource extends JsonResource
                 ];
             }),
             'share' => [
-                'facebook' => 'https://www.facebook.com/sharer/sharer.php?u=' . urlencode(route('news.show', $this->slug)),
-                'twitter' => 'https://twitter.com/intent/tweet?url=' . urlencode(route('news.show', $this->slug)) . '&text=' . urlencode($this->title),
-                'linkedin' => 'https://www.linkedin.com/shareArticle?mini=true&url=' . urlencode(route('news.show', $this->slug)) . '&title=' . urlencode($this->title),
-                'whatsapp' => 'https://api.whatsapp.com/send?text=' . urlencode($this->title . ' ' . route('news.show', $this->slug)),
+                'facebook' => 'https://www.facebook.com/sharer/sharer.php?u=https://torkatatech.com/blog/' . $this->slug,
+                'twitter' => 'https://twitter.com/intent/tweet?url=https://torkatatech.com/blog/' . $this->slug . '&text=' . urlencode($this->title),
+                'linkedin' => 'https://www.linkedin.com/shareArticle?mini=true&url=https://torkatatech.com/blog/' . $this->slug . '&title=' . urlencode($this->title) . '&summary=' . urlencode($this->meta_description),
+                'whatsapp' => 'https://api.whatsapp.com/send?text=https://torkatatech.com/blog/' . $this->slug . ' - Blog Terbaru dari Torkata Tech : ' . urlencode($this->title),
             ],
             'created_at' => $this->created_at->toDateTimeString(),
             'updated_at' => $this->updated_at->toDateTimeString(),
