@@ -16,7 +16,7 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $news = News::with(['category', 'user', 'comments', 'viewers'])
-            ->where('status', 'approved')
+            ->where('status', 'published')
             ->orderBy('created_at', 'desc')
             ->take(5)
             ->get();
