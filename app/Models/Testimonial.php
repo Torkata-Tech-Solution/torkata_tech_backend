@@ -2,11 +2,21 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Testimonial extends Model
 {
-    protected $fillable = ['photo', 'name', 'position', 'company', 'content', 'status'];
+    use HasFactory, LogsActivity;
+    public function getActivitylogOptions(): \Spatie\Activitylog\LogOptions
+    {
+        return \Spatie\Activitylog\LogOptions::defaults()
+            ->logUnguarded()
+            ->logOnlyDirty()
+            ->setDescriptionForEvent(fn (string $eventName) => "This model has been {$eventName}");
+    }
+    protected $guarded = ['id', 'created_at', 'updated_at'];
 
     public function getPhoto()
     {
