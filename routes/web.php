@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Back\DashboardController as BackDashboardController;
 use App\Http\Controllers\Back\NewsController as BackNewsController;
 use App\Http\Controllers\Back\TestimonialController as BackTestimonialController;
+use App\Http\Controllers\Back\PartnerLinkController as BackPartnerLinkController;
 use App\Http\Controllers\Back\UserController as BackUserController;
 use App\Http\Controllers\Back\MessageController as BackMessageController;
 use App\Http\Controllers\Back\SettingController as BackSettingController;
@@ -45,12 +46,19 @@ Route::prefix('back')->name('back.')->middleware('auth')->group(function () {
         Route::post('/comment/spam/{id}', [BackNewsController::class, 'commentSpam'])->name('comment.spam');
     });
 
-     Route::prefix('testimonial')->name('testimonial.')->group(function () {
+    Route::prefix('testimonial')->name('testimonial.')->group(function () {
         Route::get('/', [BackTestimonialController::class, 'index'])->name('index');
         Route::post('/create', [BackTestimonialController::class, 'store'])->name('store');
         Route::put('/edit/{id}', [BackTestimonialController::class, 'update'])->name('update');
         Route::delete('/delete/{id}', [BackTestimonialController::class, 'destroy'])->name('destroy');
         Route::put('/status', [BackTestimonialController::class, 'changeStatus'])->name('status');
+    });
+
+    Route::prefix('partner-link')->name('partner-link.')->group(function () {
+        Route::get('/', [BackPartnerLinkController::class, 'index'])->name('index');
+        Route::post('/create', [BackPartnerLinkController::class, 'store'])->name('store');
+        Route::put('/edit/{id}', [BackPartnerLinkController::class, 'update'])->name('update');
+        Route::delete('/delete/{id}', [BackPartnerLinkController::class, 'destroy'])->name('destroy');
     });
 
     Route::prefix('user')->name('user.')->group(function () {

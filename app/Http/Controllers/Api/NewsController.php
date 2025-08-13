@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\NewsResource;
 use App\Models\News;
+use App\Models\NewsCategory;
 use App\Models\NewsComment;
 use App\Models\NewsViewer;
 use Illuminate\Database\QueryException;
@@ -17,12 +18,13 @@ use Stevebauman\Location\Facades\Location;
 
 class NewsController extends Controller
 {
+
     public function index(Request $request)
     {
         try {
             $keyword = $request->input('q');
             $perPage = $request->input('perPage', 10);
-            $data = News::where('title', 'like', "%$keyword%")->where('status', 'approved')->paginate($perPage);
+            $data = News::latest()->where('title', 'like', "%$keyword%")->where('status', 'published')->paginate($perPage);
             return response()->json([
                 'response' => Response::HTTP_OK,
                 'success' => true,
@@ -73,7 +75,6 @@ class NewsController extends Controller
                 $news_visitor->browser = Agent::browser();
                 $news_visitor->device = Agent::device();
                 $news_visitor->save();
-
             } catch (\Throwable $th) {
                 Log::error('Error saving news viewer: ' . $th->getMessage());
             }
@@ -102,7 +103,8 @@ class NewsController extends Controller
         }
     }
 
-    public function comment($id, Request $request){
+    public function comment($id, Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
@@ -136,6 +138,64 @@ class NewsController extends Controller
                 'message' => 'Comment stored successfully',
                 'validation' => $validation,
                 'data' => $comment
+            ], Response::HTTP_OK);
+        } catch (QueryException $e) {
+            return response()->json([
+                'response' => Response::HTTP_INTERNAL_SERVER_ERROR,
+                'success' => false,
+                'message' => $e->getMessage(),
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+    public function listCategory()
+    {
+        try {
+            $data = NewsCategory::all();
+            return response()->json([
+                'response' => Response::HTTP_OK,
+                'success' => true,
+                'message' => 'News categories retrieved successfully',
+                'data' => $data
+            ], Response::HTTP_OK);
+        } catch (QueryException $e) {
+            return response()->json([
+                'response' => Response::HTTP_INTERNAL_SERVER_ERROR,
+                'success' => false,
+                'message' => $e->getMessage(),
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+    public function category(Request $request, $slug)
+    {
+        try {
+            $keyword = $request->input('q');
+            $perPage = $request->input('perPage', 10);
+            $newsCategory = NewsCategory::where('slug', $slug)->first();
+            if (!$newsCategory) {
+                return response()->json([
+                    'response' => Response::HTTP_INTERNAL_SERVER_ERROR,
+                    'success' => false,
+                    'message' => "Category not found",
+                ], Response::HTTP_NOT_FOUND);
+            }
+            $data = News::latest()->where('news_category_id', $newsCategory->id)->where('title', 'like', "%$keyword%")->where('status', 'published')->paginate($perPage);
+            return response()->json([
+                'response' => Response::HTTP_OK,
+                'success' => true,
+                'message' => 'News retrieved successfully',
+                'meta' => [
+                    'query' => $keyword,
+                    'path' => $data->path(),
+                    'total' => $data->total(),
+                    'perPage' => $data->perPage(),
+                    'currentPage' => $data->currentPage(),
+                    'lastPage' => $data->lastPage(),
+                    'from' => $data->firstItem(),
+                    'to' => $data->lastItem(),
+                    'hasNext' => $data->hasMorePages(),
+                    'hasPrevious' => $data->currentPage() > 1,
+                ],
+                'data' => NewsResource::collection($data)
             ], Response::HTTP_OK);
         } catch (QueryException $e) {
             return response()->json([

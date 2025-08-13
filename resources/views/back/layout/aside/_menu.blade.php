@@ -103,6 +103,18 @@
                     <span class="menu-title">Testimonial</span>
                 </a>
             </div>
+            <div class="menu-item">
+                <a class="menu-link @if (request()->routeIs('back.partner-link.index')) active @endif"
+                    href="{{ route('back.partner-link.index') }}">
+                    <span class="menu-icon">
+                        <i class="ki-duotone ki-fasten fs-2">
+                                    <span class="path1"></span>
+                                    <span class="path2"></span>
+                                </i>
+                    </span>
+                    <span class="menu-title">Partner Link</span>
+                </a>
+            </div>
         @endrole
 
 

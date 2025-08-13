@@ -19,4 +19,7 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
             'index' => 'news.index',
             'show' => 'news.show',
         ]);
+
+        Route::get('/news-category', [NewsController::class, 'listCategory'])->name('news.category');
+        Route::get("/news-category/{slug}",  [NewsController::class, 'category'])->name('news.category');
 });

@@ -7,9 +7,11 @@ use App\Http\Resources\NewsResource;
 use App\Http\Resources\TestimonialResource;
 use App\Http\Resources\UserResource;
 use App\Models\News;
+use App\Models\Partner;
 use App\Models\Testimonial;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class HomeController extends Controller
 {
@@ -42,7 +44,14 @@ class HomeController extends Controller
                     'group_2' => TestimonialResource::collection($testimonials->slice(3, 3)),
                     'group_3' => TestimonialResource::collection($testimonials->slice(6, 3)),
                 ],
-                'teams' => UserResource::collection($teams)
+                'teams' => UserResource::collection($teams),
+                'clients' => Partner::latest()->get()->map(function ($client) {
+                    return [
+                        'name' => $client->name,
+                        'logo' => $client->logo ? url(Storage::url($client->logo)) : null,
+                        'link' => $client->url,
+                    ];
+                })
             ]
         ]);
     }
