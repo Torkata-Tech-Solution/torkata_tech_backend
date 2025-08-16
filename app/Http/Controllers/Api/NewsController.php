@@ -26,9 +26,9 @@ class NewsController extends Controller
             $keyword = $request->input('q');
             $perPage = $request->input('perPage', 10);
             $category = $request->input('category', null);
-            $category = $category ? NewsCategory::where('slug', $category)->first() : null;
+            $category_id = $category ? NewsCategory::where('slug', $category)->first()->id : null;
             $data = News::latest()->where('title', 'like', "%$keyword%")->where('status', 'published')
-            ->when($category, fn($query) => $query->where('category_id', $category->id))
+            ->when($category_id, fn($query) => $query->where('category_id', $category_id))
             ->paginate($perPage);
             return response()->json([
                 'response' => Response::HTTP_OK,
