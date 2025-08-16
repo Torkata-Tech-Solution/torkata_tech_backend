@@ -20,6 +20,21 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
             'show' => 'news.show',
         ]);
 
-        Route::get('/news-category', [NewsController::class, 'listCategory'])->name('news.category');
-        Route::get("/news-category/{slug}",  [NewsController::class, 'category'])->name('news.category');
+    Route::get('/news-category', [NewsController::class, 'listCategory'])->name('news.category');
+    Route::get("/news-category/{slug}",  [NewsController::class, 'category'])->name('news.category');
+
+    Route::prefix('clients')->name('clients.')->group(function () {
+        Route::get('/', [App\Http\Controllers\Api\ClientController::class, 'index'])->name('index');
+        Route::get('/{slug}', [App\Http\Controllers\Api\ClientController::class, 'show'])->name('show');
+    });
+
+    Route::prefix('testimonials')->name('testimonials.')->group(function () {
+        Route::get('/', [App\Http\Controllers\Api\TestimonialController::class, 'index'])->name('index');
+        Route::get('/{slug}', [App\Http\Controllers\Api\TestimonialController::class, 'show'])->name('show');
+    });
+
+    Route::prefix('teams')->name('teams.')->group(function () {
+        Route::get('/', [App\Http\Controllers\Api\TeamController::class, 'index'])->name('index');
+        Route::get('/{slug}', [App\Http\Controllers\Api\TeamController::class, 'show'])->name('show');
+    });
 });
