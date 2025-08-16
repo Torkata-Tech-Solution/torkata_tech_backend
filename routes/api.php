@@ -13,15 +13,12 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
     Route::get('/home', [App\Http\Controllers\Api\HomeController::class, 'index'])->name('home.index');
     Route::get('/info', [App\Http\Controllers\Api\InformationController::class, 'index'])->name('info.index');
 
-    Route::apiResource('news', NewsController::class)
-        ->only(['index', 'show'])
-        ->names([
-            'index' => 'news.index',
-            'show' => 'news.show',
-        ]);
 
-    Route::get('/news-category', [NewsController::class, 'listCategory'])->name('news.category');
-    Route::get("/news-category/{slug}",  [NewsController::class, 'category'])->name('news.category');
+    Route::prefix('news')->name('news.')->group(function () {
+        Route::get('/category', [NewsController::class, 'category'])->name('category.list');
+        Route::get('/', [NewsController::class, 'index'])->name('index');
+        Route::get('/{slug}', [NewsController::class, 'show'])->name('show');
+    });
 
     Route::prefix('clients')->name('clients.')->group(function () {
         Route::get('/', [App\Http\Controllers\Api\ClientController::class, 'index'])->name('index');
