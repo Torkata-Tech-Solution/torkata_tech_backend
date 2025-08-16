@@ -15,7 +15,7 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
 
 
     Route::prefix('news')->name('news.')->group(function () {
-        Route::get('/category', [NewsController::class, 'category'])->name('category.list');
+        Route::get('/category', [NewsController::class, 'category'])->name('category');
         Route::get('/', [NewsController::class, 'index'])->name('index');
         Route::get('/{slug}', [NewsController::class, 'show'])->name('show');
     });
