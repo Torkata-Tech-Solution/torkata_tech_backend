@@ -22,6 +22,7 @@ class User extends Authenticatable
         'name',
         'photo',
         'position',
+        'bio',
         'linkedin',
         'instagram',
         'github',

@@ -37,6 +37,8 @@ class NewsResource extends JsonResource
                 'id' => $this->user->id,
                 'name' => $this->user->name,
                 'email' => $this->user->email,
+                'position' => $this->user->position,
+                'bio' => $this->user->bio,
                 'photo' => $this->user->photo ? url(Storage::url($this->user->photo)) : "https://ui-avatars.com/api/?background=15365F&color=C3A356&size=128&name=" . $this->name,
                 'linkedIn' => $this->user->linkedIn,
                 'github' => $this->user->github,
