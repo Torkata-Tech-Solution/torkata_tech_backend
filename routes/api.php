@@ -41,4 +41,12 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
         Route::get('/technologies', [App\Http\Controllers\Api\PortfolioController::class, 'technologies'])->name('technologies');
         Route::get('/{slug}', [App\Http\Controllers\Api\PortfolioController::class, 'show'])->name('show');
     });
+
+    Route::prefix('inbox')->name('inbox.')->group(function () {
+        Route::post('/send', [App\Http\Controllers\Api\InboxController::class, 'create'])->name('create');
+    });
+    
+    Route::prefix('site-meta')->name('site-meta.')->group(function () {
+        Route::get('/', [App\Http\Controllers\Api\SiteMetaController::class, 'index'])->name('index');
+    });
 });
