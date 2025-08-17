@@ -34,4 +34,11 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
         Route::get('/', [App\Http\Controllers\Api\TeamController::class, 'index'])->name('index');
         Route::get('/{slug}', [App\Http\Controllers\Api\TeamController::class, 'show'])->name('show');
     });
+
+    Route::prefix('portfolio')->name('portfolio.')->group(function () {
+        Route::get('/', [App\Http\Controllers\Api\PortfolioController::class, 'index'])->name('index');
+        Route::get('/featured', [App\Http\Controllers\Api\PortfolioController::class, 'featured'])->name('featured');
+        Route::get('/technologies', [App\Http\Controllers\Api\PortfolioController::class, 'technologies'])->name('technologies');
+        Route::get('/{slug}', [App\Http\Controllers\Api\PortfolioController::class, 'show'])->name('show');
+    });
 });

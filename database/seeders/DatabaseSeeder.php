@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\News;
 use App\Models\NewsCategory;
+use App\Models\Portfolio;
 use App\Models\SettingWebsite;
 use App\Models\Testimonial;
 use App\Models\User;
@@ -63,6 +64,7 @@ class DatabaseSeeder extends Seeder
 
         News::factory(4)->create();
         Testimonial::Factory(10)->create();
+        Portfolio::factory(8)->create();
 
     }
 }

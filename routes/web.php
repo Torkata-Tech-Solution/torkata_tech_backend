@@ -10,6 +10,7 @@ use App\Http\Controllers\Back\PartnerLinkController as BackPartnerLinkController
 use App\Http\Controllers\Back\UserController as BackUserController;
 use App\Http\Controllers\Back\MessageController as BackMessageController;
 use App\Http\Controllers\Back\SettingController as BackSettingController;
+use App\Http\Controllers\Back\PortfolioController as BackPortfolioController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -80,5 +81,14 @@ Route::prefix('back')->name('back.')->middleware('auth')->group(function () {
         Route::get('/website', [BackSettingController::class, 'website'])->name('website');
         Route::put('/website', [BackSettingController::class, 'websiteUpdate'])->name('website.update');
         Route::put('/website/info', [BackSettingController::class, 'informationUpdate'])->name('website.info');
+    });
+
+    Route::prefix('portfolio')->name('portfolio.')->group(function () {
+        Route::get('/', [BackPortfolioController::class, 'index'])->name('index');
+        Route::get('/create', [BackPortfolioController::class, 'create'])->name('create');
+        Route::post('/create', [BackPortfolioController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [BackPortfolioController::class, 'edit'])->name('edit');
+        Route::put('/edit/{id}', [BackPortfolioController::class, 'update'])->name('update');
+        Route::delete('/delete/{id}', [BackPortfolioController::class, 'destroy'])->name('destroy');
     });
 });

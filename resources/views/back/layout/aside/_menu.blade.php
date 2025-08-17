@@ -40,7 +40,7 @@
             </div>
         </div>
 
-        @role('humas|super-admin')
+        @role('super-admin')
             <div class="menu-item pt-5">
                 <div class="menu-content">
                     <span class="menu-heading fw-bold text-uppercase fs-7">Post</span>
@@ -113,6 +113,19 @@
                                 </i>
                     </span>
                     <span class="menu-title">Partner Link</span>
+                </a>
+            </div>
+
+            <div class="menu-item">
+                <a class="menu-link @if (request()->routeIs('back.portfolio.*')) active @endif"
+                    href="{{ route('back.portfolio.index') }}">
+                    <span class="menu-icon">
+                        <i class="ki-duotone ki-briefcase fs-2">
+                            <span class="path1"></span>
+                            <span class="path2"></span>
+                        </i>
+                    </span>
+                    <span class="menu-title">Portfolio</span>
                 </a>
             </div>
         @endrole
