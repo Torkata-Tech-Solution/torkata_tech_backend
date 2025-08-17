@@ -96,7 +96,7 @@ class NewsController extends Controller
                 'response' => Response::HTTP_OK,
                 'success' => true,
                 'message' => 'News show retrieved successfully',
-                'data' => NewsResource::collection($data)->first()
+                'data' => new NewsResource($data)
             ], Response::HTTP_OK);
         } catch (QueryException $e) {
             return response()->json([
