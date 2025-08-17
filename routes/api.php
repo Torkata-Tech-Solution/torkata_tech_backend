@@ -10,9 +10,6 @@ Route::get('/user', function (Request $request) {
 
 
 Route::prefix('v1')->name('api.v1.')->group(function () {
-    Route::get('/home', [App\Http\Controllers\Api\HomeController::class, 'index'])->name('home.index');
-    Route::get('/info', [App\Http\Controllers\Api\InformationController::class, 'index'])->name('info.index');
-
 
     Route::prefix('news')->name('news.')->group(function () {
         Route::get('/category', [NewsController::class, 'category'])->name('category');
@@ -45,7 +42,7 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
     Route::prefix('inbox')->name('inbox.')->group(function () {
         Route::post('/send', [App\Http\Controllers\Api\InboxController::class, 'create'])->name('create');
     });
-    
+
     Route::prefix('site-meta')->name('site-meta.')->group(function () {
         Route::get('/', [App\Http\Controllers\Api\SiteMetaController::class, 'index'])->name('index');
     });
