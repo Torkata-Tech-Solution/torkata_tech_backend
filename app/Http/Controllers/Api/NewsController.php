@@ -56,15 +56,14 @@ class NewsController extends Controller
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
-    public function show($id)
+    public function show($slug)
     {
         try {
-
-            $news_id = $id;
+            $data = News::where('slug', $slug)->first();
             try {
                 $currentUserInfo = Location::get(request()->ip());
                 $news_visitor = new NewsViewer();
-                $news_visitor->news_id = $news_id;
+                $news_visitor->news_id = $data->id;
                 $news_visitor->ip = request()->ip();
                 if ($currentUserInfo) {
                     $news_visitor->country = $currentUserInfo->countryName;
@@ -84,7 +83,7 @@ class NewsController extends Controller
                 Log::error('Error saving news viewer: ' . $th->getMessage());
             }
 
-            $data = News::where('id', $id)->get();
+
             if (!$data) {
                 return response()->json([
                     'response' => Response::HTTP_NOT_FOUND,
